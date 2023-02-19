@@ -7,8 +7,36 @@
     <title>Path Finding</title>
     <link rel="stylesheet" href="styles.css">
     <script defer src="script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,900&family=Poppins:wght@600&family=Roboto&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/3ab5075d1f.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    
+    <nav>
+        <section id="top">
+            <h2>Path Finding Visualizer</h2>
+            <h3>Breadth-First Search</h3>
+            <h3>Depth-First Search</h3>
+            <h3>Dijkstra</h3>
+            <h3>A*</h3>
+        </section>
+        <section id="bot">
+            <span>
+                <i class="fa-solid fa-circle" id="starting-node"></i>
+                <h4>Starting Node</h4>
+            </span>
+            <span>
+                <i class="fa-solid fa-circle" id="end-node"></i>
+                <h4>End Node</h4>
+            </span>
+            <span>
+                <i class="fa-solid fa-circle"></i>
+                <h4>Barrier</h4>
+            </span>
+            <h4>Reset</h4>
+        </section>
+    </nav>
+    <main>
+        <div id="container"></div>
+    </main>
 </body>
 </html>

@@ -2,4 +2,54 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: Poppins, 'Courier New', Courier, monospace;
+}
+body{
+    display: grid;
+    grid-template-rows: 120px 1fr;
+}
+nav{
+    width: 100%;
+    display: grid;
+    grid-template-rows: 1fr 40px;
+}
+#top, #bot{
+    display: flex;
+    align-items: center;
+    padding-inline: 1.5rem;
+    gap: 3rem;
+}
+#top{
+    background-color: #051f1e;
+    color: white
+}
+#bot{
+    box-shadow: 0 5px 15px 5px rgba(0,0,0,0.2);
+    gap: 2rem;
+}
+#bot span{
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+}
+#starting-node{
+    color: rgb(35, 85, 192);
+}
+#end-node{
+    color: red;
+}
+main{
+    display: grid;
+    padding: .5rem;
+    height: 100%;
+    width: 100%;
+}
+#container{
+    width: 100%;
+    height: 653px;
+    display: grid;
+    outline: 1px solid lightgrey;
+}
+.grid-item{
+    outline: 1px solid lightgrey;
 }
