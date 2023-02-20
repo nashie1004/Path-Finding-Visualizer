@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Path Finding Visualizer</title>
     <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
+    <script defer src="script.js" type="module"></script>
     <link rel="icon" href="./maze1.png">
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,900&family=Poppins:wght@600&family=Roboto&family=Source+Sans+Pro&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/3ab5075d1f.js" crossorigin="anonymous"></script>
@@ -15,10 +15,18 @@
     <nav>
         <section id="top">
             <h2>Path Finding Visualizer</h2>
-            <h3>Breadth-First Search</h3>
-            <h3>Depth-First Search</h3>
-            <h3>Dijkstra</h3>
-            <h3>A*</h3>
+            <span>
+                <h3>Depth-First Search</h3>
+            </span>
+            <span>
+                <h3>Breadth-First Search</h3>
+            </span>
+            <span>
+                <h3>Dijkstra</h3>
+            </span>
+            <span>
+                <h3>A*</h3>
+            </span>
         </section>
         <section id="bot">
             <span class="hover-span">
@@ -31,11 +39,11 @@
             </span>
             <span class="hover-span">
                 <i class="fa-solid fa-circle hover-black"></i>
-                <h4>Barrier</h4>
+                <h4>Barrier Node</h4>
             </span>
             <span class="hover-span">
                 <i class="fa-regular fa-circle hover-black"></i>
-                <h4>Empty</h4>
+                <h4>Empty Node</h4>
             </span>
             <span>
                 <i class="fa-solid fa-arrow-rotate-right hover-black"></i>
