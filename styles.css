@@ -13,30 +13,61 @@ nav{
     display: grid;
     grid-template-rows: 1fr 40px;
 }
-#top, #bot{
+section{
+    width: 100%
+}
+#top{
     display: flex;
     align-items: center;
     padding-inline: 1.5rem;
     gap: 3rem;
-}
-#top{
     background-color: #051f1e;
     color: white
 }
 #bot{
-    box-shadow: 0 5px 15px 5px rgba(0,0,0,0.2);
-    gap: 2rem;
+    box-shadow: 0 5px 25px 6px rgba(0,0,0,0.2);
+    gap: 1.5rem;
+    display: grid;
+    grid-template-columns: 135px 100px 80px 1fr 70px 180px; /*180*/
+    width: 100%;
+    padding-inline: 1.5rem;
 }
 #bot span{
     display: flex;
     align-items: center;
     gap: .35rem;
+    cursor: pointer;
+    /* outline: 1px dashed darkslategray; */
 }
 #starting-node{
     color: rgb(35, 85, 192);
 }
 #end-node{
     color: red;
+}
+.hover-black{
+    color: black;
+}
+#bot span:hover{
+    color: grey;
+}
+#range input{
+    -webkit-appearance: none;
+    background-color: lightgray;
+    border-radius: .5rem;
+    height: 8px;
+    cursor: pointer;
+}
+#range input::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    background-color: #051f1e;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+}
+#range input:hover{
+    /* -webkit-appearance: none; */
+    background-color: rgb(194, 157, 157);
 }
 main{
     display: grid;

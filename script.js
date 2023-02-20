@@ -1,13 +1,15 @@
 const gridContainer = document.querySelector('#container')
-const colCount = 45
-const rowCount = 18
+const colCount = 47
+const rowCount = 21
 
 const containerHeight = gridContainer.offsetHeight
 const containerWidth = gridContainer.offsetWidth
 console.log(containerHeight, containerWidth)
 
-gridContainer.style.gridTemplateColumns = `repeat(auto, ${size}px)`
-gridContainer.style.gridTemplateRows = `repeat(auto, ${size}px)`
+let size = 30
+
+gridContainer.style.gridTemplateColumns = `repeat(${colCount}, ${size}px)`
+gridContainer.style.gridTemplateRows = `repeat(${rowCount}, ${size}px)`
 
 let count = 0
 for (let i = 0; i < rowCount; i++){
@@ -18,5 +20,5 @@ for (let i = 0; i < rowCount; i++){
       gridContainer.append(div)
       count++
     }
-  }
+}
   
