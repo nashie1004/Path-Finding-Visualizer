@@ -8,9 +8,9 @@ const colCount = 50
 const rowCount = 25
 
 let dfsBtn = document.getElementById('dfs')
-let bfsBtn = document.getElementById('dfs')
-let dijkstraBtn = document.getElementById('dfs')
-let aStarBtn = document.getElementById('dfs')
+let bfsBtn = document.getElementById('bfs')
+let dijkstraBtn = document.getElementById('dijkstra')
+let aStarBtn = document.getElementById('aStar')
 
 let canvas = document.getElementById('container')
 
@@ -164,6 +164,7 @@ emptyTile.onclick = (e) => {
 
 resetTile.onclick = () => {
   init(colCount, rowCount)
+  inputChangeSize.value = 50
 }
 
 inputChangeSize.onchange = () => {
@@ -174,19 +175,19 @@ inputChangeSize.onchange = () => {
 }
 
 dfsBtn.onclick = () => {
-  // dfs(10, 359, graph)
+  dfs(310, 1197, graph)
 }
 
-dfsBtn.onclick = () => {
-  // dfs(10, 359, graph)
+bfsBtn.onclick = () => {
+  bfs(310, 1197, graph)
 }
 
-dfsBtn.onclick = () => {
-  // dfs(10, 359, graph)
+dijkstraBtn.onclick = () => {
+  dijkstra(310, 1197, graph)
 }
 
-dfsBtn.onclick = () => {
-  // dfs(10, 359, graph)
+aStarBtn.onclick = () => {
+  aStar(310, 1197, graph)
 }
 
 function init(col, row){
@@ -195,10 +196,6 @@ function init(col, row){
   getGridItemCoordinates()
 }
 init(colCount, rowCount)
-
-// bfs(310, 1197, graph)
-dijkstra()
-aStar()
 
 
 
