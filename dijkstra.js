@@ -9,6 +9,9 @@ function distance(current, node){
 }
 
 function dijkstra(src, goal, graph){
+    document.querySelector(`div[data-index='${src}']`).classList.add('start')
+    document.querySelector(`div[data-index='${goal}']`).classList.add('end')
+
     let dist = {}
     let prev = {}
     let queue = []
@@ -21,29 +24,38 @@ function dijkstra(src, goal, graph){
 
     let id = setInterval(() => {
         if (queue.length > 0){
-            
-            let current = 0
+            let current = queue[src]
 
-            for (let i = 0; i < queue.length; i++){
+            for (let i = 1; i < queue.length; i++){
                 if (dist[queue[i]] < current){
                     current = queue[i]
                 }
             }
+            console.log(current) //, queue)
             document.querySelector(`div[data-index='${current}']`).classList.add('solved')
 
             queue.splice(queue.indexOf(current), 1)
 
-            for (let neighbor in graph[current]['neighbors']){
+            for (let n in graph[current]['neighbors']){
+                let neighbor = graph[current]['neighbors'][n]
+                // console.log(1)
 
-                console.log(graph[current])
-                let alt = dist[current] + distance(graph[current]['actualCoordinates'], graph[neighbor]['actualCoordinates']) 
+                if (neighbor){
+                    // console.log(2)
 
-                if (alt < dist[neighbor] && queue.includes(neighbor)){
-                    dist[neighbor] = alt;
-                    prev[neighbor] = current
+                    let alt = dist[current] + distance(graph[current]['actualCoordinates'], graph[neighbor]['actualCoordinates']) 
+                    if (alt < dist[neighbor] && queue.includes(neighbor)){
+                        dist[neighbor] = alt;
+                        prev[neighbor] = current
+                    }
+
                 }
+
             }
-        } else clearInterval(id)
+        } else {
+            console.log('done')
+            clearInterval(id)
+        } 
     }, 20)
 }
 
