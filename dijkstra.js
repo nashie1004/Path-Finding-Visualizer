@@ -15,6 +15,7 @@ function dijkstra(src, goal, graph){
     let dist = {}
     let prev = {}
     let queue = []
+    
     for (let node in graph){
         dist[node] = Infinity
         prev[node] = null
@@ -38,12 +39,10 @@ function dijkstra(src, goal, graph){
 
             for (let n in graph[current]['neighbors']){
                 let neighbor = graph[current]['neighbors'][n]
-                // console.log(1)
 
                 if (neighbor){
-                    // console.log(2)
 
-                    let alt = dist[current] + distance(graph[current]['actualCoordinates'], graph[neighbor]['actualCoordinates']) 
+                    let alt = dist[current] + 1 //distance(graph[current]['actualCoordinates'], graph[neighbor]['actualCoordinates']) 
                     if (alt < dist[neighbor] && queue.includes(neighbor)){
                         dist[neighbor] = alt;
                         prev[neighbor] = current

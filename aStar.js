@@ -29,6 +29,7 @@ function heuristicEuclidean(node, goal){
 }
 
 function aStar(src, goal, graph){
+    console.log(src, goal)
     document.querySelector(`div[data-index='${src}']`).classList.add('start')
     document.querySelector(`div[data-index='${goal}']`).classList.add('end')
 
@@ -49,14 +50,16 @@ function aStar(src, goal, graph){
             let current = openSet[0]
 
             for (let i = 1; i < openSet.length; i++){
-                if (f[openSet[i]] < f[current]){
+                if (f[openSet[i]] < f[current]){ //BARRIER CHECK  && graph[openSet[i]]['state'] == 'empty'
                     current = openSet[i]
                 }
             }
             document.querySelector(`div[data-index='${current}']`).classList.add('solved')
+            graph[current]['state'] = 'solved'
 
             if (current == goal){
                 console.log(current, goal)
+                console.log(id)
                 clearInterval(id)
             }
 
@@ -72,9 +75,13 @@ function aStar(src, goal, graph){
 
                 let tentativeGScore = g[current] + 1
 
-                if (!openSet.includes(neighbor)){
+                // if (graph[neighbor]['state'] != 'empty'){
+                //     console.log(graph[neighbor])
+                // }
+
+                if (!openSet.includes(neighbor)){ //BARRIER CHECK && graph[neighbor]['state'] != 'empty'
                     openSet.push(neighbor)
-                } else if (tentativeGScore >= g[neighbor]) {
+                } else if (tentativeGScore >= g[neighbor]) { //BARRIER CHECK && graph[neighbor]['state'] == 'empty'
                     continue;
                 }
 
@@ -85,6 +92,7 @@ function aStar(src, goal, graph){
             }
         }
     }, 20)
+    console.log(id)
     return null
 }
 

@@ -27,6 +27,7 @@ let graph = {}
 let gridItemsArray = []
 
 function createDivs(colCount, rowCount){
+  gridItemsArray = []
   gridContainer.innerHTML = ''
 
   gridContainer.style.gridTemplateColumns = `repeat(${colCount}, ${size}fr)`
@@ -50,7 +51,7 @@ function createDivs(colCount, rowCount){
 }
 
 function neighbors(){
-  
+  graph = {}
   for (let i = 0; i < gridItemsArray.length; i++){
     for (let j = 0; j < gridItemsArray[i].length; j++){
       
@@ -89,6 +90,24 @@ function getGridItemCoordinates(){
 
   })
 }
+// --------------------------------------------------------------------------------------
+let tileColor = ''
+
+let lockStart = false;
+let lockEnd = false;
+
+let setStart = 0;
+let setEnd = 0;
+
+function setInitPoints(){
+  let lastItem = Object.keys(graph).length - 1
+
+  setStart = 0
+  setEnd = lastItem
+
+  lockStart = false;
+  lockEnd = false;
+}
 
 function canvasCoordinate(e){
   canvas.addEventListener('mousemove', canvasCoordinate)
@@ -99,9 +118,13 @@ function canvasCoordinate(e){
   let mouseY = e.y - canva.top
 
   for (let node in graph){
-    let nodeX = graph[node]['actualCoordinates'].x
-    let nodeY = graph[node]['actualCoordinates'].y
-    let size = graph[node]['actualCoordinates'].size
+    let nodeX, nodeY, size;
+    if (graph[node] != undefined){
+      nodeX = graph[node]['actualCoordinates'].x
+      nodeY = graph[node]['actualCoordinates'].y
+      size = graph[node]['actualCoordinates'].size
+    }
+
     if (
         (nodeY <= mouseX && 
         mouseX <= nodeY + size)
@@ -109,23 +132,66 @@ function canvasCoordinate(e){
         (nodeX <= mouseY &&
         mouseY <= nodeX + size)
         ){
-        document.querySelector(`div[data-index='${node}']`).classList.add('black')
-        graph[node]['state'] = 'barrier'
+
+        if (!lockStart && tileColor == 'start'){
+          document.querySelector(`div[data-index='${node}']`).classList.add(tileColor)
+          lockStart = true;
+          setStart = node;
+        }
+        
+        if (!lockEnd && tileColor == 'end'){
+          document.querySelector(`div[data-index='${node}']`).classList.add(tileColor)
+          lockEnd = true;
+          setEnd = node;
+          
+        }
+        
+        // CHECKING OUTSIDE OF BOX - UNDEFINED 
+        // UNDEFINED CONFLICTING WITH STATE
+        // UPDATE NEIGHBORS IF STATE BARRIER
+
+        if (tileColor == 'black'){
+          document.querySelector(`div[data-index='${node}']`).classList.add(tileColor)
+          graph[node]['state'] = 'barrier'
+
+          // UPDATE NEIGHBORS STATE/UNDEFINED
+          for (let neighbor0 in graph[node]['neighbors']){
+            let x = graph[node]['neighbors'][neighbor0]
+            for (let neighbor1 in graph[x]['neighbors']){
+              let y = graph[x]['neighbors'][neighbor1]
+              if (node == y){
+                // graph[node]['neighbors'][] == null
+              }
+            }
+          }
+
+        }
+
+        if (tileColor == 'none'){
+          document.querySelector(`div[data-index='${node}']`).classList.add(tileColor)
+          graph[node]['state'] = 'empty'
+
+          lockStart == false ? lockStart = true : lockStart = false;
+          lockEnd == false ? lockEnd = true : lockEnd = false;
+        }
     }
   }
 }
 
-canvas.addEventListener('mouseup', () => canvas.removeEventListener('mousemove', canvasCoordinate))
-
 barrierTile.onclick = (e) => {
+  
+  if (barrierTile.classList.contains('gray-color')){
+    barrierTile.classList.remove('gray-color')
+    canvas.removeEventListener('mousedown', canvasCoordinate) 
+    tileColor = 'black'
+    
+  } else {
+    document.querySelectorAll('.hover-span h4').forEach(h4 => h4.classList.remove('gray-color'))
 
-    if (barrierTile.classList.contains('gray-color')){
-        barrierTile.classList.remove('gray-color')
-        canvas.removeEventListener('mousedown', canvasCoordinate)  
-    } else {
-        barrierTile.classList.add('gray-color')
-        canvas.addEventListener('mousedown', canvasCoordinate)  
-    }
+    barrierTile.classList.add('gray-color')
+    canvas.addEventListener('mousedown', canvasCoordinate)  
+    tileColor = 'black'
+  }
 
 }
 
@@ -133,10 +199,15 @@ startingTile.onclick = (e) => {
   
   if (startingTile.classList.contains('gray-color')){
     startingTile.classList.remove('gray-color')
-    // canvas.removeEventListener('mousedown', canvasCoordinate)  
+    canvas.removeEventListener('mousedown', canvasCoordinate) 
+    tileColor = 'start' 
+    
   } else {
+    document.querySelectorAll('.hover-span h4').forEach(h4 => h4.classList.remove('gray-color'))
+
     startingTile.classList.add('gray-color')
-    // canvas.addEventListener('mousedown', canvasCoordinate)  
+    canvas.addEventListener('mousedown', canvasCoordinate) 
+    tileColor = 'start' 
   }
 }
 
@@ -144,10 +215,15 @@ endTile.onclick = (e) => {
   
   if (endTile.classList.contains('gray-color')){
     endTile.classList.remove('gray-color')
-    // canvas.removeEventListener('mousedown', canvasCoordinate)  
+    canvas.removeEventListener('mousedown', canvasCoordinate)  
+    tileColor = 'end' 
+    
   } else {
+    document.querySelectorAll('.hover-span h4').forEach(h4 => h4.classList.remove('gray-color'))
+    
     endTile.classList.add('gray-color')
-    // canvas.addEventListener('mousedown', canvasCoordinate)  
+    canvas.addEventListener('mousedown', canvasCoordinate) 
+    tileColor = 'end' 
   }
 }
 
@@ -155,16 +231,28 @@ emptyTile.onclick = (e) => {
   
   if (emptyTile.classList.contains('gray-color')){
     emptyTile.classList.remove('gray-color')
-    // canvas.removeEventListener('mousedown', canvasCoordinate)  
+    canvas.removeEventListener('mousedown', canvasCoordinate) 
+    tileColor = 'none' 
+    
   } else {
+    document.querySelectorAll('.hover-span h4').forEach(h4 => h4.classList.remove('gray-color'))
+    
     emptyTile.classList.add('gray-color')
-    // canvas.addEventListener('mousedown', canvasCoordinate)  
+    canvas.addEventListener('mousedown', canvasCoordinate) 
+    tileColor = 'none' 
   }
 }
+// --------------------------------------------------------------------------------------
 
 resetTile.onclick = () => {
   init(colCount, rowCount)
   inputChangeSize.value = 50
+
+  lockStart = false;
+  lockEnd = false;
+
+  setInitPoints()
+  canvas.addEventListener('mouseup', () => canvas.removeEventListener('mousemove', canvasCoordinate))
 }
 
 inputChangeSize.onchange = () => {
@@ -175,29 +263,27 @@ inputChangeSize.onchange = () => {
 }
 
 dfsBtn.onclick = () => {
-  dfs(310, 1197, graph)
+  dfs(setStart, setEnd, graph)
 }
 
 bfsBtn.onclick = () => {
-  bfs(310, 1197, graph)
+  bfs(setStart, setEnd, graph)
 }
 
 dijkstraBtn.onclick = () => {
-  dijkstra(310, 1197, graph)
+  dijkstra(setStart, setEnd, graph)
 }
 
 aStarBtn.onclick = () => {
-  aStar(310, 1197, graph)
+  aStar(setStart, setEnd, graph)
 }
 
 function init(col, row){
   createDivs(col, row)
   neighbors()
   getGridItemCoordinates()
+  setInitPoints()
+
+  canvas.addEventListener('mouseup', () => canvas.removeEventListener('mousemove', canvasCoordinate))
 }
 init(colCount, rowCount)
-
-
-
-
-  

@@ -33,8 +33,22 @@ function bfs(src, goal, graph){
             document.querySelector(`div[data-index='${current}']`).classList.add('solved')
 
             for (let n in graph[current]['neighbors']){
-                let node= graph[current]['neighbors'][n]
-                if (!visited.includes(node)){
+                let node;
+                if (n){
+                    node = graph[current]['neighbors'][n]
+                }
+                
+                // CHECKING OUTSIDE OF BOX - UNDEFINED 
+                // UNDEFINED CONFLICTING WITH STATE
+                // UPDATE NEIGHBORS IF STATE BARRIER
+
+                // if (!node || !graph[node]['state']){ 
+                //     console.log(node, graph[node], current)
+                //     console.log(graph)
+
+                // }
+
+                if (!visited.includes(node)){ // && graph[node]['state'] == 'empty' && node
                     queue.push(node)
                     visited.push(node)
                     parent[node] = current
