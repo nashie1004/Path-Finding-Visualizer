@@ -40,6 +40,7 @@ function createDivs(colCount, rowCount){
       let div = document.createElement('div')
       div.classList.add('grid-item')
       div.dataset.index = count
+      div.draggable = false;
       gridContainer.append(div)
       // div.innerHTML = count
   
@@ -146,25 +147,28 @@ function canvasCoordinate(e){
           
         }
         
-        // CHECKING OUTSIDE OF BOX - UNDEFINED 
-        // UNDEFINED CONFLICTING WITH STATE
-        // UPDATE NEIGHBORS IF STATE BARRIER
 
         if (tileColor == 'black'){
           document.querySelector(`div[data-index='${node}']`).classList.add(tileColor)
           graph[node]['state'] = 'barrier'
-
+          
           // UPDATE NEIGHBORS STATE/UNDEFINED
-          for (let neighbor0 in graph[node]['neighbors']){
-            let x = graph[node]['neighbors'][neighbor0]
-            for (let neighbor1 in graph[x]['neighbors']){
-              let y = graph[x]['neighbors'][neighbor1]
-              if (node == y){
-                // graph[node]['neighbors'][] == null
-              }
-            }
-          }
+          for (let n in graph[node]['neighbors']){
+            let neighbors  = graph[node]['neighbors'][n]
+            if (neighbors){
 
+              for (let a in graph[neighbors]['neighbors']){
+                let child = graph[neighbors]['neighbors'][a]
+
+                if (child == node){
+                  graph[neighbors]['neighbors'][a] = null;
+                }
+              }
+
+            }
+
+          }
+          // console.log(graph)
         }
 
         if (tileColor == 'none'){
