@@ -16,17 +16,21 @@
         <section id="top">
             <h2>Path Finding Visualizer</h2>
             <span>
-                <h3 id="dfs">Depth-First Search</h3>
+                <h4 id="dfs">Depth-First Search</h4>
             </span>
             <span>
-                <h3 id="bfs">Breadth-First Search</h3>
+                <h4 id="bfs">Breadth-First Search</h4>
             </span>
             <span>
-                <h3 id="dijkstra">Dijkstra</h3>
+                <h4 id="dijkstra">Dijkstra</h4>
             </span>
             <span>
-                <h3 id="aStar">A*</h3>
+                <h4 id="aStarM">A* Manhattan</h4>
             </span>
+            <span>
+                <h4 id="aStarD">A* Diagonal</h4>
+            </span>
+            <!-- <h2>Maze Generate</h2> -->
         </section>
         <section id="bot">
             <span class="hover-span">
@@ -45,11 +49,19 @@
                 <i class="fa-regular fa-circle hover-black"></i>
                 <h4 id="empty">Empty Node</h4>
             </span>
-            <span>
+            <span class="exclude">
+                <i class="fa-solid fa-circle hover-black path0"></i>
+                <h4>Visited Node</h4>
+            </span>
+            <span class="exclude">
+                <i class="fa-solid fa-circle hover-black solution0"></i>
+                <h4>Path Node</h4>
+            </span>
+            <span class="hover-span">
                 <i class="fa-solid fa-arrow-rotate-right hover-black"></i>
                 <h4 id="reset">Reset</h4>
             </span>
-            <span id="range">
+            <span class="hover-span" id="range">
                 <i class="fa-regular fa-square hover-black"></i>
                 <label for="size">Size</label>
                 <input type="range" name="" id="size" value="50" step="10" min="10" max="100">

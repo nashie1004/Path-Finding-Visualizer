@@ -28,7 +28,7 @@ function heuristicEuclidean(node, goal){
     return D * Math.sqrt(dx * dx + dy * dy)
 }
 
-function aStar(src, goal, graph){
+function aStar(src, goal, graph, H){
     console.log(src, goal)
     document.querySelector(`div[data-index='${src}']`).classList.add('start')
     document.querySelector(`div[data-index='${goal}']`).classList.add('end')
@@ -41,7 +41,12 @@ function aStar(src, goal, graph){
     let parent = {}
 
     g[src] = 0
-    f[src] = heuristicDiagonal(graph[src]['actualCoordinates'], graph[goal]['actualCoordinates'])
+    if (H == 'M'){
+        // console.log()
+        f[src] = heuristicManhattan(graph[src]['actualCoordinates'], graph[goal]['actualCoordinates'])
+    } else if (H == 'D'){
+        f[src] = heuristicDiagonal(graph[src]['actualCoordinates'], graph[goal]['actualCoordinates'])
+    }
 
     // https://www.growingwiththeweb.com/2012/06/a-pathfinding-algorithm.html#:~:text=Diagonal%20distance%20(uniform%20cost),m%20a%20x%20(%20%E2%88%A3%20n%20.
     let id = setInterval(() => {
@@ -103,7 +108,12 @@ function aStar(src, goal, graph){
 
                 parent[neighbor] = current
                 g[neighbor] = tentativeGScore
-                f[neighbor] = tentativeGScore + heuristicDiagonal(graph[neighbor]['actualCoordinates'], graph[goal]['actualCoordinates'])
+
+                if (H == 'M'){
+                    f[neighbor] = tentativeGScore + heuristicManhattan(graph[neighbor]['actualCoordinates'], graph[goal]['actualCoordinates'])
+                } else if (H == 'D'){
+                    f[neighbor] = tentativeGScore + heuristicDiagonal(graph[neighbor]['actualCoordinates'], graph[goal]['actualCoordinates'])
+                }
 
             }
         }

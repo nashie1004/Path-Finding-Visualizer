@@ -10,7 +10,8 @@ const rowCount = 25
 let dfsBtn = document.getElementById('dfs')
 let bfsBtn = document.getElementById('bfs')
 let dijkstraBtn = document.getElementById('dijkstra')
-let aStarBtn = document.getElementById('aStar')
+let aStarBtnM = document.getElementById('aStarM')
+let aStarBtnD = document.getElementById('aStarD')
 
 let canvas = document.getElementById('container')
 
@@ -278,8 +279,12 @@ dijkstraBtn.onclick = () => {
   dijkstra(setStart, setEnd, graph)
 }
 
-aStarBtn.onclick = () => {
-  aStar(setStart, setEnd, graph)
+aStarBtnM.onclick = () => {
+  aStar(setStart, setEnd, graph, 'M')
+}
+
+aStarBtnD.onclick = () => {
+  aStar(setStart, setEnd, graph, 'D')
 }
 
 function init(col, row){
