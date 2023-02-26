@@ -11,23 +11,27 @@ function bfs(src, goal, graph){
             let current = queue.shift()
 
             if (current == goal){
-                console.log(current, goal)
                 clearInterval(id)                
                 
-                // let path = [current]
-                // while(parent[current]){ //parent[current]
-                //     document.querySelector(`div[data-index='${current}']`).classList.add('path')
-                //     current = parent[current]
-                //     path.push(parent[current])
-                //     console.log(path)
-                // }
-                // alert('done')
-                // let div = document.querySelectorAll(`div[data-index]`)
-                // div.forEach(divs => {
-                //     if (path.includes(div.dataset.index)){
-                //         div.classList.add('path')
-                //     }
-                // })
+                let path = [goal];
+                let currentNode = goal;     
+
+                let id0 = setInterval(() => {
+
+                    if (currentNode !== src){
+                        currentNode = parent[currentNode]
+                        
+                        if (currentNode != src && goal != currentNode){
+                            document.querySelector(`div[data-index='${currentNode}']`).classList.remove('solved')
+                            document.querySelector(`div[data-index='${currentNode}']`).classList.add('solution')
+                        }
+                        
+                        path.unshift(currentNode)
+                    } else {
+                        clearInterval(id0)
+                    }
+
+                }, 20)
 
             }
             document.querySelector(`div[data-index='${current}']`).classList.add('solved')
@@ -37,16 +41,6 @@ function bfs(src, goal, graph){
                 if (n){
                     node = graph[current]['neighbors'][n]
                 }
-                
-                // CHECKING OUTSIDE OF BOX - UNDEFINED 
-                // UNDEFINED CONFLICTING WITH STATE
-                // UPDATE NEIGHBORS IF STATE BARRIER
-
-                // if (!node || !graph[node]['state']){ 
-                //     console.log(node, graph[node], current)
-                //     console.log(graph)
-
-                // }
 
                 if (!visited.includes(node)){ // && graph[node]['state'] == 'empty' && node
                     queue.push(node)
@@ -55,7 +49,7 @@ function bfs(src, goal, graph){
                 }
             }
         }
-    }, 10)
+    }, 20)
 }
 
 export { bfs }

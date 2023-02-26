@@ -4,14 +4,35 @@ function dfs(src, goal, graph){
 
     let queue = [ src ]
     let visited = []
+    let parent = {}
 
     let id = setInterval(() => {
         if (queue.length > 0){
             let current = queue.pop()
 
             if (current == goal){
-                console.log(current, goal)
-                clearInterval(id)                
+                clearInterval(id) 
+                
+                let path = [goal];
+                let currentNode = goal;     
+
+                let id0 = setInterval(() => {
+
+                    if (currentNode !== src){
+                        currentNode = parent[currentNode]
+                        console.log(currentNode)
+                        if (currentNode != src && goal != currentNode){
+                            document.querySelector(`div[data-index='${currentNode}']`).classList.remove('solved')
+                            document.querySelector(`div[data-index='${currentNode}']`).classList.add('solution')
+                        }
+                        
+                        path.unshift(currentNode)
+                    } else {
+                        clearInterval(id0)
+                    }
+
+                }, 20)
+
             }
             // console.log(current)
             document.querySelector(`div[data-index='${current}']`).classList.add('solved')
@@ -21,6 +42,8 @@ function dfs(src, goal, graph){
                 if (!visited.includes(node)){
                     queue.push(node)
                     visited.push(node)
+                    parent[node] = current
+
                 }
             }
         }

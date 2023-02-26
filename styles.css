@@ -97,11 +97,11 @@ main{
 @keyframes animate{
   0%{
     transform: scale(0);
-    background-color: rgb(27, 31, 27);
     border-radius: 100%;
+    background-color: rgb(18, 20, 18);
   }
   50%{
-    background-color: rgb(73, 100, 73);
+    background-color: rgb(58, 57, 19)
   }
   100%{
     transform: scale(1);
@@ -111,16 +111,32 @@ main{
 }
 .start{
     background-color: rgb(52, 78, 170);
+    animation: gelatine 0.5s;
 }
 .end{
     background-color: red;
+    animation: gelatine 0.5s;
 }
 .path{
     background-color: yellowgreen;
 }
 .black{
     background-color: #051f1e;
+    animation: gelatine 0.5s;
+    outline: 1px solid #051f1e;
+    z-index: 2;
 }
 .none{
     background: none;
+}
+@keyframes gelatine {
+    from, to { transform: scale(1, 1); }
+    25% { transform: scale(0.95, 1.05); }
+    50% { transform: scale(1.05, 0.95); }
+    75% { transform: scale(0.95, 1.05); }
+}
+.solution{
+    background-color: rgb(214, 214, 58);
+    outline: 1px solid rgb(214, 214, 58);
+    /* z-index: 2; */
 }

@@ -58,9 +58,29 @@ function aStar(src, goal, graph){
             graph[current]['state'] = 'solved'
 
             if (current == goal){
-                console.log(current, goal)
-                console.log(id)
                 clearInterval(id)
+
+                // https://chat.openai.com/chat/839c9ac3-435e-4c2f-ae3d-5431038165d4
+                let path = [goal];
+                let currentNode = goal;     
+
+                let id0 = setInterval(() => {
+
+                    if (currentNode !== src){
+                        currentNode = parent[currentNode]
+                        
+                        if (currentNode != src && goal != currentNode){
+                            document.querySelector(`div[data-index='${currentNode}']`).classList.remove('solved')
+                            document.querySelector(`div[data-index='${currentNode}']`).classList.add('solution')
+                        }
+                        
+                        path.unshift(currentNode)
+                    } else {
+                        clearInterval(id0)
+                    }
+
+                }, 20)
+
             }
 
             openSet.splice(openSet.indexOf(current), 1);
@@ -74,10 +94,6 @@ function aStar(src, goal, graph){
                 }
 
                 let tentativeGScore = g[current] + 1
-
-                // if (graph[neighbor]['state'] != 'empty'){
-                //     console.log(graph[neighbor])
-                // }
 
                 if (!openSet.includes(neighbor)){ //BARRIER CHECK && graph[neighbor]['state'] != 'empty'
                     openSet.push(neighbor)
