@@ -10,6 +10,9 @@ function distance(current, node){
 
 let idDijsktra, idDijsktra0;
 function dijkstra(src, goal, graph){
+    document.querySelector(`div[data-index='${src}']`).classList.add('start')
+    document.querySelector(`div[data-index='${goal}']`).classList.add('end')
+
     let dist = {}
     let visited =[]
     let queue = []
@@ -70,7 +73,8 @@ function dijkstra(src, goal, graph){
                 // 2. IF + 1 WILL BE SAME AS DFS
                 // 3. USE .UNSHIFT OR .POP ON FINDING MIN V SIMILAR TO BFS 
                 
-                let alt = dist[current] + 1 //distance(graph[current]['actualCoordinates'], graph[neighbor]['actualCoordinates'])
+                // TRY: alt = dist + 1
+                let alt = dist[current] + distance(graph[current]['actualCoordinates'], graph[neighbor]['actualCoordinates'])
                 console.log('current: ', current, 'alt: ', alt)
                 if (!visited.includes(neighbor) && !queue.includes(neighbor) && alt < dist[neighbor]){
                     dist[neighbor] = alt;

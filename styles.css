@@ -43,7 +43,7 @@ section{
     display: flex;
     align-items: center;
     gap: .35rem;
-    outline: 1px dashed darkslategray;
+    /* outline: 1px dashed darkslategray; */
 }
 #bot .hover-span h4:hover{
     cursor: pointer;
