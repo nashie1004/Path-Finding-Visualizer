@@ -1,7 +1,7 @@
-import {dfs} from './dfs.js'
-import {bfs} from './bfs.js'
-import {dijkstra} from './dijkstra.js'
-import {aStar} from './aStar.js'
+import {dfs, idDfs, idDfs0} from './dfs.js'
+import {bfs, idBfs, idBfs0} from './bfs.js'
+import {dijkstra, idDijsktra, idDijsktra0} from './dijkstra.js'
+import {aStar, idAStar, idAStar0} from './aStar.js'
 
 const gridContainer = document.querySelector('#container')
 const colCount = 50
@@ -18,7 +18,6 @@ let canvas = document.getElementById('container')
 let barrierTile = document.getElementById('barrier')
 let startingTile = document.getElementById('start')
 let endTile = document.getElementById('end')
-let emptyTile = document.getElementById('empty')
 let resetTile = document.getElementById('reset')
 let inputChangeSize = document.getElementById('size')
 
@@ -169,16 +168,8 @@ function canvasCoordinate(e){
             }
 
           }
-          // console.log(graph)
         }
 
-        if (tileColor == 'none'){
-          document.querySelector(`div[data-index='${node}']`).classList.add(tileColor)
-          graph[node]['state'] = 'empty'
-
-          lockStart == false ? lockStart = true : lockStart = false;
-          lockEnd == false ? lockEnd = true : lockEnd = false;
-        }
     }
   }
 }
@@ -232,21 +223,6 @@ endTile.onclick = (e) => {
   }
 }
 
-emptyTile.onclick = (e) => {
-  
-  if (emptyTile.classList.contains('gray-color')){
-    emptyTile.classList.remove('gray-color')
-    canvas.removeEventListener('mousedown', canvasCoordinate) 
-    tileColor = 'none' 
-    
-  } else {
-    document.querySelectorAll('.hover-span h4').forEach(h4 => h4.classList.remove('gray-color'))
-    
-    emptyTile.classList.add('gray-color')
-    canvas.addEventListener('mousedown', canvasCoordinate) 
-    tileColor = 'none' 
-  }
-}
 // --------------------------------------------------------------------------------------
 
 resetTile.onclick = () => {
@@ -268,22 +244,32 @@ inputChangeSize.onchange = () => {
 }
 
 dfsBtn.onclick = () => {
+  clearInterval(idDfs)
+  clearInterval(idDfs0)
   dfs(setStart, setEnd, graph)
 }
 
 bfsBtn.onclick = () => {
+  clearInterval(idBfs)
+  clearInterval(idBfs0)
   bfs(setStart, setEnd, graph)
 }
 
 dijkstraBtn.onclick = () => {
+  clearInterval(idDijsktra)
+  clearInterval(idDijsktra0)
   dijkstra(setStart, setEnd, graph)
 }
 
 aStarBtnM.onclick = () => {
+  clearInterval(idAStar)
+  clearInterval(idAStar0)
   aStar(setStart, setEnd, graph, 'M')
 }
 
 aStarBtnD.onclick = () => {
+  clearInterval(idAStar)
+  clearInterval(idAStar0)
   aStar(setStart, setEnd, graph, 'D')
 }
 

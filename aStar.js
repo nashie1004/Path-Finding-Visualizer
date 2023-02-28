@@ -28,8 +28,9 @@ function heuristicEuclidean(node, goal){
     return D * Math.sqrt(dx * dx + dy * dy)
 }
 
+let idAStar, idAStar0;
 function aStar(src, goal, graph, H){
-    console.log(src, goal)
+    console.log('a-star-bug-->', src, goal)
     document.querySelector(`div[data-index='${src}']`).classList.add('start')
     document.querySelector(`div[data-index='${goal}']`).classList.add('end')
 
@@ -42,20 +43,18 @@ function aStar(src, goal, graph, H){
 
     g[src] = 0
     if (H == 'M'){
-        // console.log()
         f[src] = heuristicManhattan(graph[src]['actualCoordinates'], graph[goal]['actualCoordinates'])
     } else if (H == 'D'){
         f[src] = heuristicDiagonal(graph[src]['actualCoordinates'], graph[goal]['actualCoordinates'])
     }
-
     // https://www.growingwiththeweb.com/2012/06/a-pathfinding-algorithm.html#:~:text=Diagonal%20distance%20(uniform%20cost),m%20a%20x%20(%20%E2%88%A3%20n%20.
-    let id = setInterval(() => {
+    idAStar = setInterval(() => {
         if (openSet.length > 0){
             // LOWEST FSCORE
             let current = openSet[0]
-
-            for (let i = 1; i < openSet.length; i++){
-                if (f[openSet[i]] < f[current]){ //BARRIER CHECK  && graph[openSet[i]]['state'] == 'empty'
+            // let i = 1;
+            for (let i = 0; i < openSet.length; i++){
+                if (f[openSet[i]] <= f[current]){ //BARRIER CHECK  && graph[openSet[i]]['state'] == 'empty'
                     current = openSet[i]
                 }
             }
@@ -63,13 +62,13 @@ function aStar(src, goal, graph, H){
             graph[current]['state'] = 'solved'
 
             if (current == goal){
-                clearInterval(id)
+                clearInterval(idAStar)
 
                 // https://chat.openai.com/chat/839c9ac3-435e-4c2f-ae3d-5431038165d4
                 let path = [goal];
                 let currentNode = goal;     
 
-                let id0 = setInterval(() => {
+                idAStar0 = setInterval(() => {
 
                     if (currentNode !== src){
                         currentNode = parent[currentNode]
@@ -81,7 +80,7 @@ function aStar(src, goal, graph, H){
                         
                         path.unshift(currentNode)
                     } else {
-                        clearInterval(id0)
+                        clearInterval(idAStar0)
                     }
 
                 }, 20)
@@ -94,7 +93,7 @@ function aStar(src, goal, graph, H){
             // NEIGHBORS
             for (let n in graph[current]['neighbors']){
                 let neighbor = graph[current]['neighbors'][n]
-                if (closedSet.includes(neighbor)){
+                if (closedSet.includes(neighbor) || !neighbor){
                     continue;
                 }
 
@@ -117,9 +116,8 @@ function aStar(src, goal, graph, H){
 
             }
         }
-    }, 20)
-    console.log(id)
+    }, 15)
     return null
 }
 
-export { aStar }
+export { aStar, idAStar, idAStar0 }

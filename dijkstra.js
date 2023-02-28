@@ -8,6 +8,7 @@ function distance(current, node){
     return c;
 }
 
+let idDijsktra, idDijsktra0;
 function dijkstra(src, goal, graph){
     let dist = {}
     let visited =[]
@@ -22,7 +23,7 @@ function dijkstra(src, goal, graph){
 
     queue.push(src)
   
-    let id = setInterval(() => {
+    idDijsktra = setInterval(() => {
 
         if (queue.length > 0){
             let current = Infinity;
@@ -35,11 +36,11 @@ function dijkstra(src, goal, graph){
             document.querySelector(`div[data-index='${current}']`).classList.add('solved')
 
             if (current == goal){
-                clearInterval(id)
+                clearInterval(idDijsktra)
                 let path = [goal];
                 let currentNode = goal;     
 
-                let id0 = setInterval(() => {
+                idDijsktra0 = setInterval(() => {
 
                     if (currentNode !== src){
                         currentNode = parent[currentNode]
@@ -50,7 +51,7 @@ function dijkstra(src, goal, graph){
                         
                         path.unshift(currentNode)
                     } else {
-                        clearInterval(id0)
+                        clearInterval(idDijsktra0)
                     }
 
                 }, 20)
@@ -62,8 +63,15 @@ function dijkstra(src, goal, graph){
             for (let n in graph[current]['neighbors']){
                 let neighbor = graph[current]['neighbors'][n]
                 
-                let alt = dist[current] + distance(graph[current]['actualCoordinates'], graph[neighbor]['actualCoordinates'])
+                if (!neighbor) continue;
+
+                // ALT
+                // 1. 4x REPEAT - ALT ALWAYS SAME = EVERY NEIGHBOR COORDINATE DISTANCE ALWAYS EQUAL
+                // 2. IF + 1 WILL BE SAME AS DFS
+                // 3. USE .UNSHIFT OR .POP ON FINDING MIN V SIMILAR TO BFS 
                 
+                let alt = dist[current] + 1 //distance(graph[current]['actualCoordinates'], graph[neighbor]['actualCoordinates'])
+                console.log('current: ', current, 'alt: ', alt)
                 if (!visited.includes(neighbor) && !queue.includes(neighbor) && alt < dist[neighbor]){
                     dist[neighbor] = alt;
                     parent[neighbor] = current;
@@ -75,9 +83,9 @@ function dijkstra(src, goal, graph){
                 
             }
         }
-    }, 20)
+    }, 15)
 
     return null;
 }
   
-  export {dijkstra}
+export {dijkstra, idDijsktra, idDijsktra0}

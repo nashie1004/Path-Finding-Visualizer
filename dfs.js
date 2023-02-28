@@ -1,3 +1,4 @@
+let idDfs, idDfs0;
 function dfs(src, goal, graph){
     document.querySelector(`div[data-index='${src}']`).classList.add('start')
     document.querySelector(`div[data-index='${goal}']`).classList.add('end')
@@ -6,17 +7,17 @@ function dfs(src, goal, graph){
     let visited = []
     let parent = {}
 
-    let id = setInterval(() => {
+    idDfs = setInterval(() => {
         if (queue.length > 0){
             let current = queue.pop()
 
             if (current == goal){
-                clearInterval(id) 
+                clearInterval(idDfs) 
                 
                 let path = [goal];
                 let currentNode = goal;     
 
-                let id0 = setInterval(() => {
+                idDfs0 = setInterval(() => {
 
                     if (currentNode !== src){
                         currentNode = parent[currentNode]
@@ -28,7 +29,7 @@ function dfs(src, goal, graph){
                         
                         path.unshift(currentNode)
                     } else {
-                        clearInterval(id0)
+                        clearInterval(idDfs0)
                     }
 
                 }, 20)
@@ -47,7 +48,7 @@ function dfs(src, goal, graph){
                 }
             }
         }
-    }, 10)
+    }, 15)
 }
 
-export { dfs }
+export { dfs, idDfs, idDfs0 }

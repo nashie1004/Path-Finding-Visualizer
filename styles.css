@@ -24,15 +24,18 @@ section{
     background-color: #051f1e;
     color: white
 }
-#top span:hover > h4{
+#top span:hover > h4, #top h3:hover{
     color: gray;
     cursor: pointer;
+}
+#top h3{
+    margin-left: auto;
 }
 #bot{
     box-shadow: 0 5px 25px 6px rgba(0,0,0,0.2);
     gap: 1.5rem;
     display: grid;
-    grid-template-columns: 135px 100px 125px 1fr 125px 110px 70px 180px; /*180*/
+    grid-template-columns: 135px 100px 1fr 125px 110px 70px 180px; /*180*/
     width: 100%;
     padding-inline: 1.5rem;
 }
@@ -40,7 +43,7 @@ section{
     display: flex;
     align-items: center;
     gap: .35rem;
-    /* outline: 1px dashed darkslategray; */
+    outline: 1px dashed darkslategray;
 }
 #bot .hover-span h4:hover{
     cursor: pointer;
@@ -135,9 +138,9 @@ main{
 }
 @keyframes gelatine {
     from, to { transform: scale(1, 1); }
-    25% { transform: scale(0.95, 1.05); }
-    50% { transform: scale(1.05, 0.95); }
-    75% { transform: scale(0.95, 1.05); }
+    25% { transform: scale(1, 1.1); }
+    50% { transform: scale(1.1, 1); }
+    75% { transform: scale(1, 1.1); }
 }
 .solution{
     background-color: rgb(214, 214, 58);

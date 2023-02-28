@@ -1,3 +1,4 @@
+let idBfs, idBfs0;
 function bfs(src, goal, graph){
     document.querySelector(`div[data-index='${src}']`).classList.add('start')
     document.querySelector(`div[data-index='${goal}']`).classList.add('end')
@@ -6,17 +7,17 @@ function bfs(src, goal, graph){
     let visited = []
     let parent = {}
 
-    let id = setInterval(() => {
+    idBfs = setInterval(() => {
         if (queue.length > 0){
             let current = queue.shift()
 
             if (current == goal){
-                clearInterval(id)                
+                clearInterval(idBfs)                
                 
                 let path = [goal];
                 let currentNode = goal;     
 
-                let id0 = setInterval(() => {
+                idBfs0 = setInterval(() => {
 
                     if (currentNode !== src){
                         currentNode = parent[currentNode]
@@ -28,7 +29,7 @@ function bfs(src, goal, graph){
                         
                         path.unshift(currentNode)
                     } else {
-                        clearInterval(id0)
+                        clearInterval(idBfs0)
                     }
 
                 }, 20)
@@ -49,7 +50,7 @@ function bfs(src, goal, graph){
                 }
             }
         }
-    }, 20)
+    }, 15)
 }
 
-export { bfs }
+export { bfs, idBfs, idBfs0 }
