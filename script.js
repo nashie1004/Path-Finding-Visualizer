@@ -2,7 +2,7 @@ import {dfs, idDfs, idDfs0} from './dfs.js'
 import {bfs, idBfs, idBfs0} from './bfs.js'
 import {dijkstra, idDijsktra, idDijsktra0} from './dijkstra.js'
 import {aStar, idAStar, idAStar0} from './aStar.js'
-import generateMazeFunction from './generateMaze.js'
+import {createBarrier, generateMazeFunction} from './generateMaze.js'
 
 const gridContainer = document.querySelector('#container')
 const colCount = 50
@@ -13,6 +13,7 @@ let bfsBtn = document.getElementById('bfs')
 let dijkstraBtn = document.getElementById('dijkstra')
 let aStarBtnM = document.getElementById('aStarM')
 let aStarBtnD = document.getElementById('aStarD')
+let aStarBtnE = document.getElementById('aStarE')
 let generateMaze = document.getElementById('generate-maze')
 
 let canvas = document.getElementById('container')
@@ -148,28 +149,9 @@ function canvasCoordinate(e){
           setEnd = node;
           
         }
-        
 
         if (tileColor == 'black'){
-          document.querySelector(`div[data-index='${node}']`).classList.add(tileColor)
-          graph[node]['state'] = 'barrier'
-          
-          // UPDATE NEIGHBORS STATE/UNDEFINED
-          for (let n in graph[node]['neighbors']){
-            let neighbors  = graph[node]['neighbors'][n]
-            if (neighbors){
-
-              for (let a in graph[neighbors]['neighbors']){
-                let child = graph[neighbors]['neighbors'][a]
-
-                if (child == node){
-                  graph[neighbors]['neighbors'][a] = null;
-                }
-              }
-
-            }
-
-          }
+          createBarrier(graph, node)
         }
 
     }
@@ -279,6 +261,11 @@ aStarBtnM.onclick = () => {
 aStarBtnD.onclick = () => {
   clearAll()
   aStar(setStart, setEnd, graph, 'D')
+}
+
+aStarBtnE.onclick = () => {
+  clearAll()
+  aStar(setStart, setEnd, graph, 'E')
 }
 
 generateMaze.onclick = () => {
