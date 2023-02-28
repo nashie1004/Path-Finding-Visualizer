@@ -5,18 +5,18 @@ function createBarrier(graph, node){
           
     // UPDATE NEIGHBORS STATE/UNDEFINED
     for (let n in graph[node]['neighbors']){
-    let neighbors = graph[node]['neighbors'][n]
-    if (neighbors){
+        let neighbors = graph[node]['neighbors'][n]
+        if (neighbors){
 
-        for (let a in graph[neighbors]['neighbors']){
-        let child = graph[neighbors]['neighbors'][a]
+            for (let a in graph[neighbors]['neighbors']){
+                let child = graph[neighbors]['neighbors'][a]
 
-        if (child == node){
-            graph[neighbors]['neighbors'][a] = null;
+                if (child == node){
+                    graph[neighbors]['neighbors'][a] = null;
+                }
+            }
+
         }
-        }
-
-    }
 
     }
 }
@@ -31,6 +31,7 @@ function generateMazeFunction(graph, gridItemsArray){
     let id = setInterval(() => {
 
         // http://www.migapro.com/depth-first-search/
+        // ODD NUMBERS ONLY
         if (array.length > 0){
             
             let current = array.pop()
@@ -39,7 +40,10 @@ function generateMazeFunction(graph, gridItemsArray){
             let arr = []
             for (let n in graph[current]['neighbors']){
                 let node = graph[current]['neighbors'][n]
-                if (!visited.includes(node) && node){
+                // node - value, n - direction
+                let a = graph[node]['neighbors'][n]
+                if (!visited.includes(a) && a && node){
+                    arr.push(a)
                     arr.push(node)
                 }
             }
