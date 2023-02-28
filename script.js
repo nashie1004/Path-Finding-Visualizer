@@ -2,6 +2,7 @@ import {dfs, idDfs, idDfs0} from './dfs.js'
 import {bfs, idBfs, idBfs0} from './bfs.js'
 import {dijkstra, idDijsktra, idDijsktra0} from './dijkstra.js'
 import {aStar, idAStar, idAStar0} from './aStar.js'
+import generateMazeFunction from './generateMaze.js'
 
 const gridContainer = document.querySelector('#container')
 const colCount = 50
@@ -12,6 +13,7 @@ let bfsBtn = document.getElementById('bfs')
 let dijkstraBtn = document.getElementById('dijkstra')
 let aStarBtnM = document.getElementById('aStarM')
 let aStarBtnD = document.getElementById('aStarD')
+let generateMaze = document.getElementById('generate-maze')
 
 let canvas = document.getElementById('container')
 
@@ -243,37 +245,48 @@ inputChangeSize.onchange = () => {
   init(col, row)
 }
 
-dfsBtn.onclick = () => {
+function clearAll(){
   clearInterval(idDfs)
   clearInterval(idDfs0)
+  clearInterval(idBfs)
+  clearInterval(idBfs0)
+  clearInterval(idDijsktra)
+  clearInterval(idDijsktra0)
+  clearInterval(idAStar)
+  clearInterval(idAStar0)
+}
+
+dfsBtn.onclick = () => {
+  clearAll()
   dfs(setStart, setEnd, graph)
 }
 
 bfsBtn.onclick = () => {
-  clearInterval(idBfs)
-  clearInterval(idBfs0)
+  clearAll()
   bfs(setStart, setEnd, graph)
 }
 
 dijkstraBtn.onclick = () => {
-  clearInterval(idDijsktra)
-  clearInterval(idDijsktra0)
+  clearAll()
   dijkstra(setStart, setEnd, graph)
 }
 
 aStarBtnM.onclick = () => {
-  clearInterval(idAStar)
-  clearInterval(idAStar0)
+  clearAll()
   aStar(setStart, setEnd, graph, 'M')
 }
 
 aStarBtnD.onclick = () => {
-  clearInterval(idAStar)
-  clearInterval(idAStar0)
+  clearAll()
   aStar(setStart, setEnd, graph, 'D')
 }
 
+generateMaze.onclick = () => {
+  generateMazeFunction(graph, gridItemsArray)
+}
+
 function init(col, row){
+  clearAll()
   createDivs(col, row)
   neighbors()
   getGridItemCoordinates()
