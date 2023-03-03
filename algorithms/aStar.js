@@ -123,4 +123,87 @@ function aStar(src, goal, graph, H){
     return null
 }
 
-export { aStar, idAStar, idAStar0 }
+function aStar_FAST(src, goal, graph, H){
+    document.querySelector(`div[data-index='${src}']`).classList.add('preview-start')
+    document.querySelector(`div[data-index='${goal}']`).classList.add('preview-end')
+
+    let openSet = [src]
+    let closedSet = []
+
+    let g = {}
+    let f = {}
+    let parent = {}
+
+    g[src] = 0
+    if (H == 'M'){
+        f[src] = heuristicManhattan(graph[src]['actualCoordinates'], graph[goal]['actualCoordinates'])
+    } else if (H == 'D'){
+        f[src] = heuristicDiagonal(graph[src]['actualCoordinates'], graph[goal]['actualCoordinates'])
+    } else if (H == 'E'){
+        f[src] = heuristicEuclidean(graph[src]['actualCoordinates'], graph[goal]['actualCoordinates'])
+    }
+    while (openSet.length > 0){
+        let current = openSet[0]
+        for (let i = 0; i < openSet.length; i++){
+            if (f[openSet[i]] <= f[current]){ //BARRIER CHECK  && graph[openSet[i]]['state'] == 'empty'
+                current = openSet[i]
+            }
+        }
+
+        if (current == goal){
+            break;
+        }
+
+        if (current != src && current != goal){
+            document.querySelector(`div[data-index='${current}']`).classList.add('preview-visited')
+        }
+
+        openSet.splice(openSet.indexOf(current), 1);
+        closedSet.push(current);
+
+        for (let n in graph[current]['neighbors']){
+            let neighbor = graph[current]['neighbors'][n]
+            if (closedSet.includes(neighbor) || !neighbor){
+                continue;
+            }
+
+            let tentativeGScore = g[current] + 1
+
+            if (!openSet.includes(neighbor)){ //BARRIER CHECK && graph[neighbor]['state'] != 'empty'
+                openSet.push(neighbor)
+            } else if (tentativeGScore >= g[neighbor]) { //BARRIER CHECK && graph[neighbor]['state'] == 'empty'
+                continue;
+            }
+
+            parent[neighbor] = current
+            g[neighbor] = tentativeGScore
+
+            if (H == 'M'){
+                f[neighbor] = tentativeGScore + heuristicManhattan(graph[neighbor]['actualCoordinates'], graph[goal]['actualCoordinates'])
+            } else if (H == 'D'){
+                f[neighbor] = tentativeGScore + heuristicDiagonal(graph[neighbor]['actualCoordinates'], graph[goal]['actualCoordinates'])
+            } else if (H == 'E') {
+                f[neighbor] = tentativeGScore + heuristicEuclidean(graph[neighbor]['actualCoordinates'], graph[goal]['actualCoordinates'])
+            }
+
+        }
+    }
+
+    let path = [goal];
+    let currentNode = goal;     
+
+    while (currentNode !== src){
+        currentNode = parent[currentNode]
+        
+        if (currentNode != src && goal != currentNode){
+            document.querySelector(`div[data-index='${currentNode}']`).classList.remove('preview-visited')
+            document.querySelector(`div[data-index='${currentNode}']`).classList.add('preview-path')
+        }
+        
+        path.unshift(currentNode)
+    } 
+
+    return null
+}
+
+export { aStar, idAStar, idAStar0, aStar_FAST }

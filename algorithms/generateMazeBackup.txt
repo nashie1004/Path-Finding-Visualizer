@@ -1,0 +1,68 @@
+function createBarrier(graph, node){
+    let tileColor = 'black'
+    document.querySelector(`div[data-index='${node}']`).classList.add(tileColor)
+    graph[node]['state'] = 'barrier'
+          
+    // UPDATE NEIGHBORS STATE/UNDEFINED
+    for (let n in graph[node]['neighbors']){
+        let neighbors = graph[node]['neighbors'][n]
+        if (neighbors){
+
+            for (let a in graph[neighbors]['neighbors']){
+                let child = graph[neighbors]['neighbors'][a]
+
+                if (child == node){
+                    graph[neighbors]['neighbors'][a] = null;
+                }
+            }
+
+        }
+
+    }
+}
+
+let mazeId;
+function generateMazeFunction(graph, gridItemsArray){
+    let src = gridItemsArray[0][0]
+    
+    let stack = [src]
+    let visited = [src]
+
+    mazeId = setInterval(function(){
+        if (stack.length > 0){
+            
+            let current = stack.pop()
+
+            let arr = []
+            for (let direction in graph[current]['neighbors']){
+                let node;
+                let cell2x; 
+                if (graph[current]['neighbors'][direction]){
+                    node = graph[current]['neighbors'][direction]
+                }
+                if (graph[node]['neighbors'][direction]){
+                    cell2x = graph[node]['neighbors'][direction];
+                }
+
+                if (!visited.includes(cell2x) && cell2x){
+                    arr.push(cell2x)
+                }
+            }
+
+            // if (){
+                stack.push(current)
+                createBarrier(graph, current)
+
+                let neighbor = arr[Math.floor(Math.random() * arr.length)] // x2
+                //remove wall
+                visited.push(neighbor)
+            // }
+
+
+        } else {
+            clearInterval(mazeId)
+        }
+    }, 1)
+}
+
+export {createBarrier, generateMazeFunction, mazeId}

@@ -92,4 +92,76 @@ function dijkstra(src, goal, graph){
     return null;
 }
   
-export {dijkstra, idDijsktra, idDijsktra0}
+function dijkstra_FAST(src, goal, graph){
+    document.querySelector(`div[data-index='${src}']`).classList.add('preview-start')
+    document.querySelector(`div[data-index='${goal}']`).classList.add('preview-end')
+
+    let dist = {}
+    let visited =[]
+    let queue = []
+    let parent = {}
+
+    for (let node in graph){
+        dist[node] = Infinity;
+        parent[node] = null;
+    }
+    dist[src] = 0;
+
+    queue.push(src)
+  
+    while (queue.length > 0){
+        let current = Infinity;
+
+        for (let e of queue){
+            if (!visited.includes(e) && dist[e] < current){
+                current = e;
+            }
+        }
+
+        if (current != src && current != goal){
+            document.querySelector(`div[data-index='${current}']`).classList.add('preview-visited')
+        }
+
+        if (current == goal){
+            break;
+        }
+
+        queue.splice(queue.indexOf(current), 1)
+        visited.push(current);
+        
+        for (let n in graph[current]['neighbors']){
+            let neighbor = graph[current]['neighbors'][n]
+            
+            if (!neighbor) continue;
+
+            let alt = dist[current] + distance(graph[current]['actualCoordinates'], graph[neighbor]['actualCoordinates'])
+            console.log('current: ', current, 'alt: ', alt)
+            if (!visited.includes(neighbor) && !queue.includes(neighbor) && alt < dist[neighbor]){
+                dist[neighbor] = alt;
+                parent[neighbor] = current;
+            }
+            
+            if (!visited.includes(neighbor) && !queue.includes(neighbor)){
+                queue.push(neighbor)
+            }
+            
+        }
+    }
+    
+    let path = [goal];
+    let currentNode = goal;     
+
+    while (currentNode !== src){
+        currentNode = parent[currentNode]
+        if (currentNode != src && goal != currentNode){
+            document.querySelector(`div[data-index='${currentNode}']`).classList.remove('preview-visited')
+            document.querySelector(`div[data-index='${currentNode}']`).classList.add('preview-path')
+        }
+        
+        path.unshift(currentNode)
+    } 
+
+    return null;
+}
+
+export {dijkstra, idDijsktra, idDijsktra0, dijkstra_FAST}

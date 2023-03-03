@@ -1,8 +1,8 @@
-import {dfs, idDfs, idDfs0} from './dfs.js'
-import {bfs, idBfs, idBfs0} from './bfs.js'
-import {dijkstra, idDijsktra, idDijsktra0} from './dijkstra.js'
-import {aStar, idAStar, idAStar0} from './aStar.js'
-import {createBarrier, generateMazeFunction} from './generateMaze.js'
+import {dfs, idDfs, idDfs0, dfs_FAST} from './algorithms/dfs.js'
+import {bfs, idBfs, idBfs0, bfs_FAST} from './algorithms/bfs.js'
+import {dijkstra, idDijsktra, idDijsktra0, dijkstra_FAST} from './algorithms/dijkstra.js'
+import {aStar, idAStar, idAStar0, aStar_FAST} from './algorithms/aStar.js'
+import {createBarrier, generateMazeFunction, mazeId} from './algorithms/generateMaze.js'
 
 const gridContainer = document.querySelector('#container')
 const colCount = 50
@@ -21,6 +21,7 @@ let canvas = document.getElementById('container')
 let barrierTile = document.getElementById('barrier')
 let startingTile = document.getElementById('start')
 let endTile = document.getElementById('end')
+let enablePreview = document.getElementById('preview')
 let resetTile = document.getElementById('reset')
 let inputChangeSize = document.getElementById('size')
 
@@ -113,6 +114,7 @@ function setInitPoints(){
   lockEnd = false;
 }
 
+let barrierArrayFor_FAST = []
 function canvasCoordinate(e){
   canvas.addEventListener('mousemove', canvasCoordinate)
 
@@ -151,7 +153,9 @@ function canvasCoordinate(e){
         }
 
         if (tileColor == 'black'){
-          createBarrier(graph, node)
+          // GET ALL BARRIERS
+          barrierArrayFor_FAST.push(node)
+          createBarrier(graph, node, tileColor)
         }
 
     }
@@ -207,7 +211,53 @@ endTile.onclick = (e) => {
   }
 }
 
+// FOR ENABLE PREVIEW
+function listenMove(e){
+  let canva = canvas.getBoundingClientRect()
+  let mouseX = e.x - canva.left
+  let mouseY = e.y - canva.top
+  for (let node in graph){
+    let nodeX, nodeY, size;
+    if (graph[node] != undefined){
+      nodeX = graph[node]['actualCoordinates'].x
+      nodeY = graph[node]['actualCoordinates'].y
+      size = graph[node]['actualCoordinates'].size
+    }
+    if ((nodeY <= mouseX && mouseX <= nodeY + size) && (nodeX <= mouseY && mouseY <= nodeX + size))
+    {
+      clearAll()
+      createDivs(colCount, rowCount)
+      neighbors()
+      getGridItemCoordinates()
+      canvas.addEventListener('mouseup', () => canvas.removeEventListener('mousemove', canvasCoordinate))
+
+      for (let idx of barrierArrayFor_FAST){
+        createBarrier(graph, idx, 'preview-black')
+      }
+
+      // dfs_FAST(setStart, node, graph)
+      // bfs_FAST(setStart, node, graph)
+      aStar_FAST(setStart, node, graph, 'D')
+      // dijkstra_FAST(setStart, node, graph)
+    }
+  }
+}
+
 // --------------------------------------------------------------------------------------
+enablePreview.onclick = () => {
+
+  if (enablePreview.classList.contains('gray-color')){
+    init(colCount, rowCount)
+
+    enablePreview.classList.remove('gray-color')
+    canvas.removeEventListener('mousemove', listenMove)
+    document.querySelectorAll('.hover-span h4').forEach(h4 => h4.classList.remove('gray-color'))
+  } else {
+    enablePreview.classList.add('gray-color')
+    canvas.addEventListener('mousemove', listenMove)
+  }
+    
+}
 
 resetTile.onclick = () => {
   init(colCount, rowCount)
@@ -228,14 +278,21 @@ inputChangeSize.onchange = () => {
 }
 
 function clearAll(){
+  // enable solve
   clearInterval(idDfs)
   clearInterval(idDfs0)
+
   clearInterval(idBfs)
   clearInterval(idBfs0)
+
   clearInterval(idDijsktra)
   clearInterval(idDijsktra0)
+
   clearInterval(idAStar)
   clearInterval(idAStar0)
+
+  // generate maze
+  clearInterval(mazeId)
 }
 
 dfsBtn.onclick = () => {

@@ -35,7 +35,7 @@ section{
     box-shadow: 0 5px 25px 6px rgba(0,0,0,0.2);
     gap: 1.5rem;
     display: grid;
-    grid-template-columns: 135px 100px 1fr 125px 110px 70px 180px; /*180*/
+    grid-template-columns: 135px 100px 1fr 125px 110px 150px 70px 180px; /*180*/
     width: 100%;
     padding-inline: 1.5rem;
 }
@@ -137,10 +137,11 @@ main{
     background: none;
 }
 @keyframes gelatine {
-    from, to { transform: scale(.9, .9); }
+    0% { transform: scale(.9, .9); }
     25% { transform: scale(.9, 1.1); }
     50% { transform: scale(1.1, .9); }
     75% { transform: scale(.9, 1.1); }
+    100% {transform: scale(1, 1);}
 }
 .solution{
     background-color: rgb(214, 214, 58);
@@ -152,4 +153,29 @@ main{
 }
 .solution0{
     color: rgb(214, 214, 58);
+}
+.red{
+    background-color: red;
+}
+
+
+.preview-start{
+    background-color: rgb(52, 78, 170);
+}
+.preview-end{
+    background-color: red;
+}
+.preview-visited{
+    background-color: limegreen;
+}
+.preview-path{
+    background-color: rgb(214, 214, 58);
+}
+.preview-black{
+    background-color: #051f1e;
+    outline: 1px solid #051f1e;
+    z-index: 2;
+}
+.preview-start, .preview-end, .preview-visited, .preview-path{
+    opacity: 0.5;
 }
