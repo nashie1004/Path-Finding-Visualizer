@@ -124,6 +124,7 @@ function aStar(src, goal, graph, H){
 }
 
 function aStar_FAST(src, goal, graph, H){
+    console.log('src: ', src)
     document.querySelector(`div[data-index='${src}']`).classList.add('preview-start')
     document.querySelector(`div[data-index='${goal}']`).classList.add('preview-end')
 

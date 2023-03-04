@@ -22,6 +22,7 @@ function bfs(src, goal, graph){
                     if (currentNode !== src){
                         currentNode = parent[currentNode]
                         
+                        // if (currentNode != src && goal != currentNode){
                         if (currentNode != src && goal != currentNode){
                             document.querySelector(`div[data-index='${currentNode}']`).classList.remove('solved')
                             document.querySelector(`div[data-index='${currentNode}']`).classList.add('solution')
@@ -50,7 +51,7 @@ function bfs(src, goal, graph){
                 }
             }
         }
-    }, 15)
+    }, 5)
 }
 
 function bfs_FAST(src, goal, graph){

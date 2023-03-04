@@ -1,6 +1,4 @@
-let barrierArray = []
 function createBarrier(graph, node, tileJelly){
-    barrierArray.push(node)
     document.querySelector(`div[data-index='${node}']`).classList.add(tileJelly)
     graph[node]['state'] = 'barrier'
           
@@ -31,6 +29,7 @@ function generateMazeFunction(graph, gridItemsArray){
     }
     array.push(src)
     let visited = [src]
+    let arrayTestExport = []
 
     mazeId = setInterval(() => {
 
@@ -73,16 +72,18 @@ function generateMazeFunction(graph, gridItemsArray){
             let next = arr[Math.floor(Math.random() * arr.length)]
             array.push(next)
             visited.push(next)
+            arrayTestExport.push(next)
 
             createBarrier(graph, next, 'black')
                 
-
         } else {
             console.log('done')
             clearInterval(mazeId)
+            return;
         }
 
     }, 2) 
+    return arrayTestExport;
 }
 
 export {createBarrier, generateMazeFunction, mazeId}

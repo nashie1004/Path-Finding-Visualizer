@@ -21,7 +21,7 @@ let canvas = document.getElementById('container')
 let barrierTile = document.getElementById('barrier')
 let startingTile = document.getElementById('start')
 let endTile = document.getElementById('end')
-let enablePreview = document.getElementById('preview')
+let enablePreview = document.getElementById('float-container')
 let resetTile = document.getElementById('reset')
 let inputChangeSize = document.getElementById('size')
 
@@ -114,7 +114,7 @@ function setInitPoints(){
   lockEnd = false;
 }
 
-let barrierArrayFor_FAST = []
+let arrayForBarrier = []
 function canvasCoordinate(e){
   canvas.addEventListener('mousemove', canvasCoordinate)
 
@@ -153,8 +153,8 @@ function canvasCoordinate(e){
         }
 
         if (tileColor == 'black'){
-          // GET ALL BARRIERS
-          barrierArrayFor_FAST.push(node)
+          // restoreBarriers(tileColor)
+          arrayForBarrier.push(node)
           createBarrier(graph, node, tileColor)
         }
 
@@ -210,7 +210,6 @@ endTile.onclick = (e) => {
     tileColor = 'end' 
   }
 }
-
 // FOR ENABLE PREVIEW
 function listenMove(e){
   let canva = canvas.getBoundingClientRect()
@@ -225,30 +224,60 @@ function listenMove(e){
     }
     if ((nodeY <= mouseX && mouseX <= nodeY + size) && (nodeX <= mouseY && mouseY <= nodeX + size))
     {
+      let col = inputChangeSize.value
+      let row = col / 2
+
       clearAll()
-      createDivs(colCount, rowCount)
+      createDivs(col, row) //CHANGE THIS
       neighbors()
       getGridItemCoordinates()
       canvas.addEventListener('mouseup', () => canvas.removeEventListener('mousemove', canvasCoordinate))
-
-      for (let idx of barrierArrayFor_FAST){
+      
+      //NOTE: EXPORT ONLY ONCE, CANT EXPORT MAZE BARRIERS FROM GENERATOR
+      for (let idx of arrayForBarrier){ // arrayForBarrier
         createBarrier(graph, idx, 'preview-black')
       }
 
       // dfs_FAST(setStart, node, graph)
-      // bfs_FAST(setStart, node, graph)
-      aStar_FAST(setStart, node, graph, 'D')
+      bfs_FAST(setStart, node, graph)
+      // aStar_FAST(setStart, node, graph, 'M')
+      // aStar_FAST(setStart, node, graph, 'D')
       // dijkstra_FAST(setStart, node, graph)
     }
   }
 }
 
 // --------------------------------------------------------------------------------------
-enablePreview.onclick = () => {
+enablePreview.onmouseover = () => {
+  // TODO
+  let dfsBtn_FAST = false;
+  document.getElementById('dfsBtn_FAST').onclick = () => {
+    dfsBtn_FAST = dfsBtn_FAST ? false : true;
+  }
+  let bfsBtn_FAST = false;
+  document.getElementById('bfsBtn_FAST').onclick = () => {
+    bfsBtn_FAST = dfsBtn_FAST ? false : true;
+  }
+  let dijkstraBtn_FAST = false;
+  document.getElementById('dijkstraBtn_FAST').onclick = () => {
+    dijkstraBtn_FAST = dijkstraBtn_FAST ? false : true;
+  }
+  let AMBtn_FAST = false;
+  document.getElementById('AMBtn_FAST').onclick = () => {
+    AMBtn_FAST = AMBtn_FAST ? false : true;
+  }
+  let ADBtn_FAST = false;
+  document.getElementById('ADBtn_FAST').onclick = () => {
+    ADBtn_FAST = ADBtn_FAST ? false : true;
+  }
+  let AEBtn_FAST = false;
+  document.getElementById('AEBtn_FAST').onclick = () => {
+    AEBtn_FAST = AEBtn_FAST ? false : true;
+  }
 
   if (enablePreview.classList.contains('gray-color')){
+    
     init(colCount, rowCount)
-
     enablePreview.classList.remove('gray-color')
     canvas.removeEventListener('mousemove', listenMove)
     document.querySelectorAll('.hover-span h4').forEach(h4 => h4.classList.remove('gray-color'))
@@ -336,6 +365,7 @@ function init(col, row){
   getGridItemCoordinates()
   setInitPoints()
 
+  arrayForBarrier = []
   canvas.addEventListener('mouseup', () => canvas.removeEventListener('mousemove', canvasCoordinate))
 }
 init(colCount, rowCount)
