@@ -214,6 +214,26 @@ endTile.onclick = (e) => {
 // FOR ENABLE PREVIEW
 let whoClicked = ''
 
+enablePreview.onclick = () => {
+
+  document.getElementById('dfsBtn_FAST').onclick = () => whoClicked = 'dfsBtn_FAST'
+  document.getElementById('bfsBtn_FAST').onclick = () => whoClicked = 'bfsBtn_FAST'
+  document.getElementById('dijkstraBtn_FAST').onclick = () => whoClicked = 'dijkstraBtn_FAST'
+  
+  document.getElementById('AMBtn_FAST').onclick = () => whoClicked = 'AMBtn_FAST'
+  document.getElementById('ADBtn_FAST').onclick = () => whoClicked = 'ADBtn_FAST'
+  document.getElementById('AEBtn_FAST').onclick = () => whoClicked = 'AEBtn_FAST'
+
+  if (enablePreview.classList.contains('gray-color')){
+    init(colCount, rowCount)
+    enablePreview.classList.remove('gray-color')
+    canvas.removeEventListener('mousemove', listenMove)
+  } else {
+    enablePreview.classList.add('gray-color')
+    canvas.addEventListener('mousemove', listenMove)
+  }
+    
+}
 function listenMove(e){
   let canva = canvas.getBoundingClientRect()
   let mouseX = e.x - canva.left
@@ -242,27 +262,29 @@ function listenMove(e){
         createBarrier(graph, idx, 'preview-black')
       }
 
-      aStar_FAST(setStart, node, graph, 'M')
+      //PROBLEM WHO CLICKED ALWAYS = ''
+      // if (whoClicked == 'dfsBtn_FAST'){
+      //   dfs_FAST(setStart, node, graph)
+      // } else if (whoClicked == 'bfsBtn_FAST'){
+      //   bfs_FAST(setStart, node, graph)
+      // } else if (whoClicked == 'dijkstraBtn_FAST'){
+      //   dijkstra_FAST(setStart, node, graph)
+      // } 
+      // else if (whoClicked == 'AMBtn_FAST'){
+      //   aStar_FAST(setStart, node, graph, 'M')
+      // } else if (whoClicked == 'ADBtn_FAST'){
+      //   aStar_FAST(setStart, node, graph, 'D')
+      // } else if (whoClicked == 'AEBtn_FAST'){
+      //   aStar_FAST(setStart, node, graph, 'E')
+      // }
+      aStar_FAST(setStart, node, graph, 'E')
 
     }
   }
 }
 
-// --------------------------------------------------------------------------------------
-enablePreview.onclick = () => {
-  
-  document.getElementById('dfsBtn_FAST').onclick = () => whoClicked = 'dfs_FAST'
 
-  if (enablePreview.classList.contains('gray-color')){
-    
-    enablePreview.classList.remove('gray-color')
-    canvas.removeEventListener('mousemove', listenMove)
-  } else {
-    enablePreview.classList.add('gray-color')
-    canvas.addEventListener('mousemove', listenMove)
-  }
-    
-}
+// --------------------------------------------------------------------------------------
 
 resetTile.onclick = () => {
   init(colCount, rowCount)
@@ -343,5 +365,6 @@ function init(col, row){
 
   arrayForBarrier = []
   canvas.addEventListener('mouseup', () => canvas.removeEventListener('mousemove', canvasCoordinate))
+  whoClicked = ''
 }
 init(colCount, rowCount)
