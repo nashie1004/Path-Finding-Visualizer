@@ -210,10 +210,7 @@ endTile.onclick = (e) => {
     tileColor = 'end' 
   }
 }
-
 // FOR ENABLE PREVIEW
-let whoClicked = ''
-
 function listenMove(e){
   let canva = canvas.getBoundingClientRect()
   let mouseX = e.x - canva.left
@@ -227,7 +224,6 @@ function listenMove(e){
     }
     if ((nodeY <= mouseX && mouseX <= nodeY + size) && (nodeX <= mouseY && mouseY <= nodeX + size))
     {
-      //TEST HERE
       let col = inputChangeSize.value
       let row = col / 2
 
@@ -242,21 +238,49 @@ function listenMove(e){
         createBarrier(graph, idx, 'preview-black')
       }
 
-      aStar_FAST(setStart, node, graph, 'M')
-
+      // dfs_FAST(setStart, node, graph)
+      bfs_FAST(setStart, node, graph)
+      // aStar_FAST(setStart, node, graph, 'M')
+      // aStar_FAST(setStart, node, graph, 'D')
+      // dijkstra_FAST(setStart, node, graph)
     }
   }
 }
 
 // --------------------------------------------------------------------------------------
 enablePreview.onclick = () => {
+  // TODO
+  let dfsBtn_FAST = false;
+  document.getElementById('dfsBtn_FAST').onclick = () => {
+    dfsBtn_FAST = dfsBtn_FAST ? false : true;
+  }
+  let bfsBtn_FAST = false;
+  document.getElementById('bfsBtn_FAST').onclick = () => {
+    bfsBtn_FAST = dfsBtn_FAST ? false : true;
+  }
+  let dijkstraBtn_FAST = false;
+  document.getElementById('dijkstraBtn_FAST').onclick = () => {
+    dijkstraBtn_FAST = dijkstraBtn_FAST ? false : true;
+  }
+  let AMBtn_FAST = false;
+  document.getElementById('AMBtn_FAST').onclick = () => {
+    AMBtn_FAST = AMBtn_FAST ? false : true;
+  }
+  let ADBtn_FAST = false;
+  document.getElementById('ADBtn_FAST').onclick = () => {
+    ADBtn_FAST = ADBtn_FAST ? false : true;
+  }
+  let AEBtn_FAST = false;
+  document.getElementById('AEBtn_FAST').onclick = () => {
+    AEBtn_FAST = AEBtn_FAST ? false : true;
+  }
   
-  document.getElementById('dfsBtn_FAST').onclick = () => whoClicked = 'dfs_FAST'
-
   if (enablePreview.classList.contains('gray-color')){
     
+    init(colCount, rowCount)
     enablePreview.classList.remove('gray-color')
     canvas.removeEventListener('mousemove', listenMove)
+    document.querySelectorAll('.hover-span h4').forEach(h4 => h4.classList.remove('gray-color'))
   } else {
     enablePreview.classList.add('gray-color')
     canvas.addEventListener('mousemove', listenMove)
