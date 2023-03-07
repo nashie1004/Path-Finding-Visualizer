@@ -1,5 +1,6 @@
 let idBfs, idBfs0;
 function bfs(src, goal, graph){
+    console.log('BFS SOURCE: ', src)
     document.querySelector(`div[data-index='${src}']`).classList.add('start')
     document.querySelector(`div[data-index='${goal}']`).classList.add('end')
 
@@ -23,7 +24,7 @@ function bfs(src, goal, graph){
                         currentNode = parent[currentNode]
                         
                         // if (currentNode != src && goal != currentNode){
-                        if (currentNode != src && goal != currentNode){
+                        if ((currentNode != src) && goal != currentNode){
                             document.querySelector(`div[data-index='${currentNode}']`).classList.remove('solved')
                             document.querySelector(`div[data-index='${currentNode}']`).classList.add('solution')
                         }

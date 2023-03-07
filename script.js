@@ -214,23 +214,29 @@ endTile.onclick = (e) => {
 // FOR ENABLE PREVIEW
 let whoClicked = ''
 
-enablePreview.onclick = () => {
+function changeClicked(string){
+  whoClicked = string;
+}
 
-  document.getElementById('dfsBtn_FAST').onclick = () => whoClicked = 'dfsBtn_FAST'
-  document.getElementById('bfsBtn_FAST').onclick = () => whoClicked = 'bfsBtn_FAST'
-  document.getElementById('dijkstraBtn_FAST').onclick = () => whoClicked = 'dijkstraBtn_FAST'
+enablePreview.onmouseover = () => {
+
+  document.getElementById('dfsBtn_FAST').onclick = () => changeClicked('dfsBtn_FAST')
+  document.getElementById('bfsBtn_FAST').onclick = () => changeClicked('bfsBtn_FAST')
+  document.getElementById('dijkstraBtn_FAST').onclick = () => changeClicked('dijkstraBtn_FAST')
   
-  document.getElementById('AMBtn_FAST').onclick = () => whoClicked = 'AMBtn_FAST'
-  document.getElementById('ADBtn_FAST').onclick = () => whoClicked = 'ADBtn_FAST'
-  document.getElementById('AEBtn_FAST').onclick = () => whoClicked = 'AEBtn_FAST'
+  document.getElementById('AMBtn_FAST').onclick = () => changeClicked('AMBtn_FAST') 
+  document.getElementById('ADBtn_FAST').onclick = () => changeClicked('ADBtn_FAST') 
+  document.getElementById('AEBtn_FAST').onclick = () => changeClicked('AEBtn_FAST')
 
-  if (enablePreview.classList.contains('gray-color')){
-    init(colCount, rowCount)
-    enablePreview.classList.remove('gray-color')
-    canvas.removeEventListener('mousemove', listenMove)
-  } else {
-    enablePreview.classList.add('gray-color')
-    canvas.addEventListener('mousemove', listenMove)
+  enablePreview.onclick = function(){
+    if (enablePreview.classList.contains('gray-color')){
+      init(colCount, rowCount)
+      enablePreview.classList.remove('gray-color')
+      canvas.removeEventListener('mousemove', listenMove)
+    } else {
+      enablePreview.classList.add('gray-color')
+      canvas.addEventListener('mousemove', listenMove)
+    }
   }
     
 }
@@ -263,21 +269,21 @@ function listenMove(e){
       }
 
       //PROBLEM WHO CLICKED ALWAYS = ''
-      // if (whoClicked == 'dfsBtn_FAST'){
-      //   dfs_FAST(setStart, node, graph)
-      // } else if (whoClicked == 'bfsBtn_FAST'){
-      //   bfs_FAST(setStart, node, graph)
-      // } else if (whoClicked == 'dijkstraBtn_FAST'){
-      //   dijkstra_FAST(setStart, node, graph)
-      // } 
-      // else if (whoClicked == 'AMBtn_FAST'){
-      //   aStar_FAST(setStart, node, graph, 'M')
-      // } else if (whoClicked == 'ADBtn_FAST'){
-      //   aStar_FAST(setStart, node, graph, 'D')
-      // } else if (whoClicked == 'AEBtn_FAST'){
-      //   aStar_FAST(setStart, node, graph, 'E')
-      // }
-      aStar_FAST(setStart, node, graph, 'E')
+      if (whoClicked == 'dfsBtn_FAST'){
+        dfs_FAST(setStart, node, graph)
+      } else if (whoClicked == 'bfsBtn_FAST'){
+        bfs_FAST(setStart, node, graph)
+      } else if (whoClicked == 'dijkstraBtn_FAST'){
+        dijkstra_FAST(setStart, node, graph)
+      } 
+      else if (whoClicked == 'AMBtn_FAST'){
+        aStar_FAST(setStart, node, graph, 'M')
+      } else if (whoClicked == 'ADBtn_FAST'){
+        aStar_FAST(setStart, node, graph, 'D')
+      } else if (whoClicked == 'AEBtn_FAST'){
+        aStar_FAST(setStart, node, graph, 'E')
+      }
+      // aStar_FAST(setStart, node, graph, 'E')
 
     }
   }
