@@ -115,6 +115,7 @@ function setInitPoints(){
 }
 
 let arrayForBarrier = []
+
 function canvasCoordinate(e){
   canvas.addEventListener('mousemove', canvasCoordinate)
 
@@ -240,6 +241,7 @@ enablePreview.onmouseover = () => {
   }
     
 }
+
 function listenMove(e){
   let canva = canvas.getBoundingClientRect()
   let mouseX = e.x - canva.left
@@ -288,7 +290,6 @@ function listenMove(e){
     }
   }
 }
-
 
 // --------------------------------------------------------------------------------------
 
@@ -358,9 +359,7 @@ aStarBtnE.onclick = () => {
   aStar(setStart, setEnd, graph, 'E')
 }
 
-generateMaze.onclick = () => {
-  generateMazeFunction(graph, gridItemsArray)
-}
+generateMaze.onclick = () => generateMazeFunction(graph, gridItemsArray)
 
 function init(col, row){
   clearAll()

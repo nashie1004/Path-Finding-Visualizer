@@ -1,1 +1,1 @@
-#A path finding visualizer in javascript with dfs, bfs, dijkstra and a*
+# A path finding visualizer in javascript with dfs, bfs, dijkstra and a*
