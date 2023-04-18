@@ -77,7 +77,7 @@ function neighbors(){
 
       graph[gridItemsArray[i][j]] = {neighbors: { top, bot, left, right }, coordinate: {x: j, y: i}, state: 'empty' }
       
-    }
+    } //
   }
 }
 
